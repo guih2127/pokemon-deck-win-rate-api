@@ -27,16 +27,40 @@ namespace PokemonDeckWinRateAPI.Services
             return await _deckRepository.GetDecksAsync();
         }
 
-        public async Task<DeckStatusViewModel> GetDeckStatusByDeckIdAsync(int deckId)
+        public async Task<DeckStatusModel> GetDeckStatusByDeckIdAsync(int deckId)
         {
             var matchesPlayed = await _matchRepository.GetMatchsByUsedDeckIdAsync(deckId);
 
-            return new DeckStatusViewModel
+            var deckBestMatch = matchesPlayed
+                .Where(m => m.Win)
+                .GroupBy(m => m.OpponentDeck)
+                .OrderByDescending(m => m.Count())
+                .First().Key;
+
+            var deckWorstMatch = matchesPlayed
+                .Where(m => !m.Win)
+                .GroupBy(m => m.OpponentDeck)
+                .OrderByDescending(m => m.Count())
+                .First().Key;
+
+            var deckBestMatchWinPercentage =
+                matchesPlayed.Where(m => m.OpponentDeckId == deckBestMatch.Id && m.Win).Count() * 100 / 
+                matchesPlayed.Where(m => m.OpponentDeckId == deckBestMatch.Id).Count();
+
+            var deckWorstMatchWinPercentage = 
+                matchesPlayed.Where(m => m.OpponentDeckId == deckWorstMatch.Id && m.Win).Count() * 100 / 
+                matchesPlayed.Where(m => m.OpponentDeckId == deckWorstMatch.Id).Count();
+
+            return new DeckStatusModel
             {
                 MatchesPlayed = matchesPlayed.Count(),
                 MatchesWon = matchesPlayed.Where(m => m.Win).Count(),
                 MatchesLost = matchesPlayed.Where(m => !m.Win).Count(),
-                WinPercentage = (matchesPlayed.Where(m => m.Win).Count() * 100 / matchesPlayed.Count())
+                WinPercentage = (matchesPlayed.Where(m => m.Win).Count() * 100 / matchesPlayed.Count()),
+                BestMatch = _mapper.Map<Deck, GetDeckViewModel>(deckBestMatch),
+                WorstMatch = _mapper.Map<Deck, GetDeckViewModel>(deckWorstMatch),
+                BestMatchWinPercentage = deckBestMatchWinPercentage,
+                WorstMatchWinPercentage = deckWorstMatchWinPercentage
             };
         }
 
