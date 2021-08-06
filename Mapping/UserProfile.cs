@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using PokemonDeckWinRateAPI.DTOs;
 using PokemonDeckWinRateAPI.Models;
+using PokemonDeckWinRateAPI.ViewModel;
 
 namespace PokemonDeckWinRateAPI.Mapping
 {

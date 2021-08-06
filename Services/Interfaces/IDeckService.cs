@@ -1,4 +1,5 @@
 ﻿using PokemonDeckWinRateAPI.Models;
+using PokemonDeckWinRateAPI.ViewModel;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -8,5 +9,6 @@ namespace PokemonDeckWinRateAPI.Services.Interfaces
     {
         public Task<IEnumerable<Deck>> GetDecksAsync();
         public Task<Deck> InsertDeckAsync(Deck deck);
+        public Task<DeckStatusViewModel> GetDeckStatusByDeckIdAsync(int deckId);
     }
 }

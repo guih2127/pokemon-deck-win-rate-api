@@ -1,4 +1,4 @@
-﻿namespace PokemonDeckWinRateAPI.DTOs
+﻿namespace PokemonDeckWinRateAPI.ViewModel
 {
     public class GetDeckViewModel
     {

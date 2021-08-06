@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using PokemonDeckWinRateAPI.DTOs;
 using PokemonDeckWinRateAPI.Models;
 using PokemonDeckWinRateAPI.Services.Interfaces;
+using PokemonDeckWinRateAPI.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -48,6 +48,21 @@ namespace PokemonDeckWinRateAPI.Controllers
                 var deckInserted = await _deckService.InsertDeckAsync(deck);
 
                 return Ok(deckInserted);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [Route("/decks/{deckId}/Status")]
+        [HttpGet]
+        public async Task<IActionResult> GetDeckStatusByDeckIdAsync(int deckId)
+        {
+            try
+            {
+                var deckStatusViewModel = await _deckService.GetDeckStatusByDeckIdAsync(deckId);
+                return Ok(deckStatusViewModel);
             }
             catch (Exception e)
             {
