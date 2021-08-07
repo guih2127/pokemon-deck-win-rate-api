@@ -31,25 +31,27 @@ namespace PokemonDeckWinRateAPI.Services
         {
             var matchesPlayed = await _matchRepository.GetMatchsByUsedDeckIdAsync(deckId);
 
-            var deckBestMatch = matchesPlayed
+            var deckBestMatch = (matchesPlayed.Where(m => m.Win).Count() != 0) ?
+                matchesPlayed
                 .Where(m => m.Win)
                 .GroupBy(m => m.OpponentDeck)
                 .OrderByDescending(m => m.Count())
-                .First().Key;
+                .First().Key : null;
 
-            var deckWorstMatch = matchesPlayed
+            var deckWorstMatch = (matchesPlayed.Where(m => !m.Win).Count() != 0) ?
+                matchesPlayed
                 .Where(m => !m.Win)
                 .GroupBy(m => m.OpponentDeck)
                 .OrderByDescending(m => m.Count())
-                .First().Key;
+                .First().Key : null;
 
-            var deckBestMatchWinPercentage =
-                matchesPlayed.Where(m => m.OpponentDeckId == deckBestMatch.Id && m.Win).Count() * 100 / 
-                matchesPlayed.Where(m => m.OpponentDeckId == deckBestMatch.Id).Count();
+            var deckBestMatchWinPercentage = (deckBestMatch != null) ?
+                matchesPlayed.Where(m => m.OpponentDeckId == deckBestMatch.Id && m.Win).Count() * 100 /
+                matchesPlayed.Where(m => m.OpponentDeckId == deckBestMatch.Id).Count() : 0;
 
-            var deckWorstMatchWinPercentage = 
-                matchesPlayed.Where(m => m.OpponentDeckId == deckWorstMatch.Id && m.Win).Count() * 100 / 
-                matchesPlayed.Where(m => m.OpponentDeckId == deckWorstMatch.Id).Count();
+            var deckWorstMatchWinPercentage = (deckWorstMatch != null) ?
+                matchesPlayed.Where(m => m.OpponentDeckId == deckWorstMatch.Id && m.Win).Count() * 100 /
+                matchesPlayed.Where(m => m.OpponentDeckId == deckWorstMatch.Id).Count() : 0;
 
             return new DeckStatusViewModel
             {
