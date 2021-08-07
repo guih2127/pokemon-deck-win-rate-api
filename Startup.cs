@@ -38,7 +38,7 @@ namespace PokemonDeckWinRateAPI
             services.AddDbContext<PokemonDeckWinRateContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("Default")));
 
-
+            services.AddCors();
 
             services.AddAutoMapper(typeof(Startup));
 
@@ -63,6 +63,11 @@ namespace PokemonDeckWinRateAPI
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseCors(builder => builder
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader());
 
             app.UseEndpoints(endpoints =>
             {

@@ -10,18 +10,18 @@ using System.Threading.Tasks;
 namespace PokemonDeckWinRateAPI.Controllers
 {
     [ApiController]
-    public class MatchsController : ControllerBase
+    public class MatchesController : ControllerBase
     {
         private readonly IMatchService _matchService;
         private readonly IMapper _mapper;
 
-        public MatchsController(IMatchService matchService, IMapper mapper)
+        public MatchesController(IMatchService matchService, IMapper mapper)
         {
             _matchService = matchService;
             _mapper = mapper;
         }
 
-        [Route("/matchs")]
+        [Route("/matches")]
         [HttpPost]
         public async Task<IActionResult> InsertMatchAsync(InsertMatchViewModel insertMatchViewModel)
         {
@@ -39,7 +39,7 @@ namespace PokemonDeckWinRateAPI.Controllers
             }
         }
 
-        [Route("matchs/{usedDeckId}")]
+        [Route("matches/{usedDeckId}")]
         [HttpGet]
         public async Task<IActionResult> GetMatchsByUsedDeckIdAsync(int usedDeckId)
         {

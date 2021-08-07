@@ -22,6 +22,7 @@ namespace PokemonDeckWinRateAPI.Repositories
             var matches = await _context.Matchs
                 .Where(m => m.UsedDeckId == usedDeckId)
                 .Include(m => m.OpponentDeck)
+                .OrderByDescending(m => m.Id)
                 .ToListAsync();
 
             return matches;
