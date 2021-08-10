@@ -31,6 +31,11 @@ namespace PokemonDeckWinRateAPI.Services
         {
             var matchesPlayed = await _matchRepository.GetMatchsByUsedDeckIdAsync(deckId);
 
+            if (matchesPlayed.Count() == 0)
+            {
+                return new DeckStatusViewModel { };
+            }
+
             var deckBestMatch = (matchesPlayed.Where(m => m.Win).Count() != 0) ?
                 matchesPlayed
                 .Where(m => m.Win)
