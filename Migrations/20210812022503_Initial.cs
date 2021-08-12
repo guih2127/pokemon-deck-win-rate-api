@@ -22,6 +22,22 @@ namespace PokemonDeckWinRateAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Users",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Username = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Password = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Role = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Users", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Matchs",
                 columns: table => new
                 {
@@ -30,7 +46,8 @@ namespace PokemonDeckWinRateAPI.Migrations
                     Win = table.Column<bool>(type: "bit", nullable: false),
                     FirstTurn = table.Column<bool>(type: "bit", nullable: false),
                     UsedDeckId = table.Column<int>(type: "int", nullable: false),
-                    OpponentDeckId = table.Column<int>(type: "int", nullable: false)
+                    OpponentDeckId = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -45,6 +62,11 @@ namespace PokemonDeckWinRateAPI.Migrations
                         column: x => x.UsedDeckId,
                         principalTable: "Decks",
                         principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Matchs_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
@@ -56,6 +78,11 @@ namespace PokemonDeckWinRateAPI.Migrations
                 name: "IX_Matchs_UsedDeckId",
                 table: "Matchs",
                 column: "UsedDeckId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Matchs_UserId",
+                table: "Matchs",
+                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -65,6 +92,9 @@ namespace PokemonDeckWinRateAPI.Migrations
 
             migrationBuilder.DropTable(
                 name: "Decks");
+
+            migrationBuilder.DropTable(
+                name: "Users");
         }
     }
 }

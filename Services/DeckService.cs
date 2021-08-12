@@ -27,13 +27,13 @@ namespace PokemonDeckWinRateAPI.Services
             return await _deckRepository.GetDecksAsync();
         }
 
-        public async Task<DeckStatusViewModel> GetDeckStatusByDeckIdAsync(int deckId)
+        public async Task<GetDeckStatusViewModel> GetDeckStatusByDeckIdAsync(int deckId)
         {
             var matchesPlayed = await _matchRepository.GetMatchsByUsedDeckIdAsync(deckId);
 
             if (matchesPlayed.Count() == 0)
             {
-                return new DeckStatusViewModel { };
+                return new GetDeckStatusViewModel { };
             }
 
             var deckBestMatch = (matchesPlayed.Where(m => m.Win).Count() != 0) ?
@@ -58,7 +58,7 @@ namespace PokemonDeckWinRateAPI.Services
                 matchesPlayed.Where(m => m.OpponentDeckId == deckWorstMatch.Id && m.Win).Count() * 100 /
                 matchesPlayed.Where(m => m.OpponentDeckId == deckWorstMatch.Id).Count() : 0;
 
-            return new DeckStatusViewModel
+            return new GetDeckStatusViewModel
             {
                 MatchesPlayed = matchesPlayed.Count(),
                 MatchesWon = matchesPlayed.Where(m => m.Win).Count(),

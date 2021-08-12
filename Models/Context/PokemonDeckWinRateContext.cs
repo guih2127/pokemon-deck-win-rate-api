@@ -11,6 +11,7 @@ namespace PokemonDeckWinRateAPI.Models.Context
 
         public DbSet<Deck> Decks { get; set; }
         public DbSet<Match> Matchs { get; set; }
+        public DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -21,6 +22,10 @@ namespace PokemonDeckWinRateAPI.Models.Context
             modelBuilder.Entity<Match>()
                 .HasOne(m => m.UsedDeck)
                 .WithMany(d => d.MatchsPlayed);
+
+            modelBuilder.Entity<User>()
+                .HasMany(u => u.MatchesPlayed)
+                .WithOne(m => m.User);
         }
     }
 }

@@ -8,8 +8,10 @@ namespace PokemonDeckWinRateAPI.Mapping
     {
         public UserProfile()
         {
-            CreateMap<Deck, GetDeckViewModel>().ReverseMap();
-            CreateMap<Deck, InsertDeckViewModel>().ReverseMap();
+            CreateMap<User, GetUserViewModel>().ReverseMap();
+            CreateMap<InsertUserViewModel, User>()
+                .ReverseMap()
+                .ForMember(x => x.ConfirmPassword, opt => opt.Ignore());
         }
     }
 }

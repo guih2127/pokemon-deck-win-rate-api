@@ -1,6 +1,6 @@
 ﻿namespace PokemonDeckWinRateAPI.ViewModel
 {
-    public class DeckStatusViewModel
+    public class GetDeckStatusViewModel
     {
         public int MatchesPlayed { get; set; }
         public int MatchesWon { get; set; }

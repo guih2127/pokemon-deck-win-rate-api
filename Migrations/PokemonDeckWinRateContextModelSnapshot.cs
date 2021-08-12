@@ -55,6 +55,9 @@ namespace PokemonDeckWinRateAPI.Migrations
                     b.Property<int>("UsedDeckId")
                         .HasColumnType("int");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
                     b.Property<bool>("Win")
                         .HasColumnType("bit");
 
@@ -64,7 +67,33 @@ namespace PokemonDeckWinRateAPI.Migrations
 
                     b.HasIndex("UsedDeckId");
 
+                    b.HasIndex("UserId");
+
                     b.ToTable("Matchs");
+                });
+
+            modelBuilder.Entity("PokemonDeckWinRateAPI.Models.User", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Password")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Role")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Username")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("PokemonDeckWinRateAPI.Models.Match", b =>
@@ -81,9 +110,17 @@ namespace PokemonDeckWinRateAPI.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("PokemonDeckWinRateAPI.Models.User", "User")
+                        .WithMany("MatchesPlayed")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("OpponentDeck");
 
                     b.Navigation("UsedDeck");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("PokemonDeckWinRateAPI.Models.Deck", b =>
@@ -91,6 +128,11 @@ namespace PokemonDeckWinRateAPI.Migrations
                     b.Navigation("MatchsAgainst");
 
                     b.Navigation("MatchsPlayed");
+                });
+
+            modelBuilder.Entity("PokemonDeckWinRateAPI.Models.User", b =>
+                {
+                    b.Navigation("MatchesPlayed");
                 });
 #pragma warning restore 612, 618
         }

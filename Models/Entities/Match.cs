@@ -11,14 +11,17 @@ namespace PokemonDeckWinRateAPI.Models
         public int Id { get; set; }
         public bool Win { get; set; }
         public bool FirstTurn { get; set; }
-
         public int UsedDeckId { get; set; }
+        public int OpponentDeckId { get; set; }
+        public int UserId { get; set; }
 
         [JsonIgnore]
         public Deck UsedDeck { get; set; }
-        public int OpponentDeckId { get; set; }
 
         [JsonIgnore]
         public Deck OpponentDeck { get; set; }
+
+        [JsonIgnore]
+        public User User { get; set; }
     }
 }
