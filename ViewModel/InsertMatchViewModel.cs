@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using System;
+using System.Text.Json.Serialization;
 
 namespace PokemonDeckWinRateAPI.ViewModel
 {
@@ -8,5 +9,6 @@ namespace PokemonDeckWinRateAPI.ViewModel
         public bool FirstTurn { get; set; }
         public int UsedDeckId { get; set; }
         public int OpponentDeckId { get; set; }
+        public DateTime Date { get; set; }
     }
 }

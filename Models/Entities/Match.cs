@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
@@ -14,6 +15,7 @@ namespace PokemonDeckWinRateAPI.Models
         public int UsedDeckId { get; set; }
         public int OpponentDeckId { get; set; }
         public int UserId { get; set; }
+        public DateTime Date { get; set; }
 
         [JsonIgnore]
         public Deck UsedDeck { get; set; }
