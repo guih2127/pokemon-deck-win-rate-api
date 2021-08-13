@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PokemonDeckWinRateAPI.Models;
 using PokemonDeckWinRateAPI.Services.Interfaces;
@@ -22,6 +23,7 @@ namespace PokemonDeckWinRateAPI.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         [Route("login")]
         public async Task<IActionResult> LoginAsync([FromBody] UserLoginViewModel userLoginViewModel)
         {
@@ -50,6 +52,7 @@ namespace PokemonDeckWinRateAPI.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         [Route("/register")]
         public async Task<IActionResult> RegisterUserAsync([FromBody] InsertUserViewModel userRegisterViewModel)
         {

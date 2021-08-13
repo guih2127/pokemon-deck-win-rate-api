@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PokemonDeckWinRateAPI.Models;
 using PokemonDeckWinRateAPI.Services.Interfaces;
@@ -22,6 +23,7 @@ namespace PokemonDeckWinRateAPI.Controllers
         }
 
         [Route("/decks")]
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> GetDecksAsync()
         {
@@ -39,6 +41,7 @@ namespace PokemonDeckWinRateAPI.Controllers
         }
 
         [Route("/decks")]
+        [Authorize(Roles = "Administrador")]
         [HttpPost]
         public async Task<IActionResult> InsertDeckAsync(InsertDeckViewModel deckViewModel)
         {
@@ -56,12 +59,14 @@ namespace PokemonDeckWinRateAPI.Controllers
         }
 
         [Route("/decks/{deckId}/Status")]
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> GetDeckStatusByDeckIdAsync(int deckId)
         {
             try
             {
-                var deckStatusViewModel = await _deckService.GetDeckStatusByDeckIdAsync(deckId);
+                var userId = Convert.ToInt32(User.Identity.Name);
+                var deckStatusViewModel = await _deckService.GetDeckStatusByDeckIdAsync(deckId, userId);
                 return Ok(deckStatusViewModel);
             }
             catch (Exception e)

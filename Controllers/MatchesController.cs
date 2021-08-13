@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PokemonDeckWinRateAPI.Models;
 using PokemonDeckWinRateAPI.Services.Interfaces;
@@ -22,12 +23,15 @@ namespace PokemonDeckWinRateAPI.Controllers
         }
 
         [Route("/matches")]
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> InsertMatchAsync(InsertMatchViewModel insertMatchViewModel)
         {
             try
             {
                 var match = _mapper.Map<InsertMatchViewModel, Match>(insertMatchViewModel);
+                match.UserId = Convert.ToInt32(User.Identity.Name);
+
                 var matchInserted = await _matchService.InsertMatchAsync(match);
                 var getMatchViewModel = _mapper.Map<Match, GetMatchViewModel>(matchInserted);
 
@@ -40,12 +44,14 @@ namespace PokemonDeckWinRateAPI.Controllers
         }
 
         [Route("matches/{usedDeckId}")]
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> GetMatchsByUsedDeckIdAsync(int usedDeckId)
         {
             try
             {
-                var deckMatches = await _matchService.GetMatchsByUsedDeckIdAsync(usedDeckId);
+                var userId = Convert.ToInt32(User.Identity.Name);
+                var deckMatches = await _matchService.GetMatchsByUsedDeckIdAsync(usedDeckId, userId);
                 var deckMatchesViewModel = _mapper.Map<IEnumerable<Match>, IEnumerable<GetDeckMatchViewModel>>(deckMatches);
 
                 return Ok(deckMatchesViewModel);

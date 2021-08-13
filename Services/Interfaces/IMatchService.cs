@@ -7,6 +7,6 @@ namespace PokemonDeckWinRateAPI.Services.Interfaces
     public interface IMatchService
     {
         public Task<Match> InsertMatchAsync(Match match);
-        Task<IEnumerable<Match>> GetMatchsByUsedDeckIdAsync(int usedDeckId);
+        Task<IEnumerable<Match>> GetMatchsByUsedDeckIdAsync(int usedDeckId, int userId);
     }
 }

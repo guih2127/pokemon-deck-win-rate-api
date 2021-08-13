@@ -27,9 +27,9 @@ namespace PokemonDeckWinRateAPI.Services
             return await _deckRepository.GetDecksAsync();
         }
 
-        public async Task<GetDeckStatusViewModel> GetDeckStatusByDeckIdAsync(int deckId)
+        public async Task<GetDeckStatusViewModel> GetDeckStatusByDeckIdAsync(int deckId, int userId)
         {
-            var matchesPlayed = await _matchRepository.GetMatchsByUsedDeckIdAsync(deckId);
+            var matchesPlayed = await _matchRepository.GetMatchsByUsedDeckIdAsync(deckId, userId);
 
             if (matchesPlayed.Count() == 0)
             {

@@ -15,9 +15,9 @@ namespace PokemonDeckWinRateAPI.Services
             _matchRepository = matchRepository;
         }
 
-        public async Task<IEnumerable<Match>> GetMatchsByUsedDeckIdAsync(int usedDeckId)
+        public async Task<IEnumerable<Match>> GetMatchsByUsedDeckIdAsync(int usedDeckId, int userId)
         {
-            return await _matchRepository.GetMatchsByUsedDeckIdAsync(usedDeckId);
+            return await _matchRepository.GetMatchsByUsedDeckIdAsync(usedDeckId, userId);
         }
 
         public async Task<Match> InsertMatchAsync(Match match)

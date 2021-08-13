@@ -1,4 +1,6 @@
-﻿namespace PokemonDeckWinRateAPI.ViewModel
+﻿using System.Text.Json.Serialization;
+
+namespace PokemonDeckWinRateAPI.ViewModel
 {
     public class InsertMatchViewModel
     {

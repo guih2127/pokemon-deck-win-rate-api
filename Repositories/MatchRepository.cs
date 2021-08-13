@@ -17,10 +17,10 @@ namespace PokemonDeckWinRateAPI.Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<Match>> GetMatchsByUsedDeckIdAsync(int usedDeckId)
+        public async Task<IEnumerable<Match>> GetMatchsByUsedDeckIdAsync(int usedDeckId, int userId)
         {
             var matches = await _context.Matchs
-                .Where(m => m.UsedDeckId == usedDeckId)
+                .Where(m => m.UsedDeckId == usedDeckId && m.UserId == userId)
                 .Include(m => m.OpponentDeck)
                 .OrderByDescending(m => m.Id)
                 .ToListAsync();
