@@ -41,5 +41,11 @@ namespace PokemonDeckWinRateAPI.Repositories
 
             return insertedMatch;
         }
+
+        public async Task<IEnumerable<Match>> GetAllMatchesAsync()
+        {
+            var matches = await _context.Matchs.ToListAsync();
+            return matches;
+        }
     }
 }

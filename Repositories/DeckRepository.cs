@@ -18,7 +18,10 @@ namespace PokemonDeckWinRateAPI.Repositories
 
         public async Task<IEnumerable<Deck>> GetDecksAsync()
         {
-            var decks = await _context.Decks.ToListAsync();
+            var decks = await _context.Decks.
+                Include(d => d.MatchsAgainst).
+                ToListAsync();
+
             return decks;
         }
 

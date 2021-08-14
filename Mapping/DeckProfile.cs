@@ -10,6 +10,7 @@ namespace PokemonDeckWinRateAPI.Mapping
         {
             CreateMap<Deck, GetDeckViewModel>().ReverseMap();
             CreateMap<Deck, InsertDeckViewModel>().ReverseMap();
+            CreateMap<Deck, GetDeckAndDeckStatusViewModel>().ReverseMap();
         }
     }
 }

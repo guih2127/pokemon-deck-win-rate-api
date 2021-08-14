@@ -67,7 +67,24 @@ namespace PokemonDeckWinRateAPI.Controllers
             {
                 var userId = Convert.ToInt32(User.Identity.Name);
                 var deckStatusViewModel = await _deckService.GetDeckStatusByDeckIdAsync(deckId, userId);
+
                 return Ok(deckStatusViewModel);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [Route("/decks/best-decks")]
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> GetBestDecksAsync()
+        {
+            try
+            {
+                var bestDecks = await _deckService.GetBestDecksAsync();
+                return Ok(bestDecks);
             }
             catch (Exception e)
             {

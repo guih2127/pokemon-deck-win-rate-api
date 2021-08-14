@@ -8,5 +8,6 @@ namespace PokemonDeckWinRateAPI.Repositories.Interfaces
     {
         public Task<Match> InsertMatchAsync(Match match);
         public Task<IEnumerable<Match>> GetMatchsByUsedDeckIdAsync(int usedDeckId, int userId);
+        public Task<IEnumerable<Match>> GetAllMatchesAsync();
     }
 }
