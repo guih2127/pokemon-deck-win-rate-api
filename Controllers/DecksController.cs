@@ -77,14 +77,19 @@ namespace PokemonDeckWinRateAPI.Controllers
         }
 
         [Route("/decks/best-decks")]
-        [Authorize]
+        //[Authorize]
         [HttpGet]
-        public async Task<IActionResult> GetBestDecksAsync()
+        public async Task<IActionResult> GetBestDecksAsync([FromQuery]PaginationFilterViewModel paginationViewModel)
         {
             try
             {
-                var bestDecks = await _deckService.GetBestDecksAsync();
-                return Ok(bestDecks);
+                var bestDecks = await _deckService.GetBestDecksAsync(paginationViewModel);
+                var totalDecksCount = await _deckService.GetDecksCountAsync();
+
+                return Ok(
+                    new PagedResponseViewModel<GetDeckAndDeckStatusViewModel>
+                    (bestDecks, paginationViewModel.PageNumber, paginationViewModel.PageSize, totalDecksCount)
+                );
             }
             catch (Exception e)
             {

@@ -27,6 +27,11 @@ namespace PokemonDeckWinRateAPI.Services
             return await _deckRepository.GetDecksAsync();
         }
 
+        public async Task<int> GetDecksCountAsync()
+        {
+            return await _deckRepository.GetDecksCountAsync();
+        }
+
         public async Task<GetDeckStatusViewModel> GetDeckStatusByDeckIdAsync(int deckId, int userId)
         {
             var matchesPlayed = await _matchRepository.GetMatchsByUsedDeckIdAsync(deckId, userId);
@@ -74,9 +79,9 @@ namespace PokemonDeckWinRateAPI.Services
             return await _deckRepository.InsertDeckAsync(deck);
         }
 
-        public async Task<IEnumerable<GetDeckAndDeckStatusViewModel>> GetBestDecksAsync()
+        public async Task<IEnumerable<GetDeckAndDeckStatusViewModel>> GetBestDecksAsync(PaginationFilterViewModel paginationViewModel)
         {
-            var decks = await _deckRepository.GetDecksAsync();
+            var decks = await _deckRepository.GetDecksAsync(paginationViewModel);
             var deckStatusList = new List<GetDeckAndDeckStatusViewModel>();
 
             if (decks.Count() == 0)
@@ -86,9 +91,12 @@ namespace PokemonDeckWinRateAPI.Services
             {
                 var deckStatus = _mapper.Map<Deck, GetDeckAndDeckStatusViewModel>(deck);
 
-                deckStatus.MatchesWon = deck.MatchsPlayed.Where(m => m.Win).Count();
-                deckStatus.MatchesLost = deck.MatchsPlayed.Where(m => !m.Win).Count();
-                deckStatus.WinPercentage = deckStatus.MatchesWon * 100 / (deckStatus.MatchesLost + deckStatus.MatchesWon);
+                if (deck.MatchsAgainst.Count() > 0 && deck.MatchsAgainst != null)
+                {
+                    deckStatus.MatchesWon = deck.MatchsPlayed.Where(m => m.Win).Count();
+                    deckStatus.MatchesLost = deck.MatchsPlayed.Where(m => !m.Win).Count();
+                    deckStatus.WinPercentage = deckStatus.MatchesWon * 100 / (deckStatus.MatchesLost + deckStatus.MatchesWon);
+                }
 
                 deckStatusList.Add(deckStatus);
             }

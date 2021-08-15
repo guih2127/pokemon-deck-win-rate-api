@@ -14,6 +14,26 @@ namespace PokemonDeckWinRateAPI.Models.Context
             if (!context.Decks.Any())
             {
                 context.Decks.Add(entity: new Deck() { FirstPokemonExternalId = "swshp-SWSH045", Name = "Eternatus VMAX" });
+                context.Decks.Add(entity: new Deck() { FirstPokemonExternalId = "swshp-SWSH045", Name = "Eternatus VMAX" });
+                context.Decks.Add(entity: new Deck() { FirstPokemonExternalId = "swshp-SWSH045", Name = "Eternatus VMAX" });
+                context.Decks.Add(entity: new Deck() { FirstPokemonExternalId = "swshp-SWSH045", Name = "Eternatus VMAX" });
+                context.Decks.Add(entity: new Deck() { FirstPokemonExternalId = "swshp-SWSH045", Name = "Eternatus VMAX" });
+                context.Decks.Add(entity: new Deck() { FirstPokemonExternalId = "swshp-SWSH045", Name = "Eternatus VMAX" });
+                context.Decks.Add(entity: new Deck() { FirstPokemonExternalId = "swshp-SWSH045", Name = "Eternatus VMAX" });
+                context.Decks.Add(entity: new Deck() { FirstPokemonExternalId = "swshp-SWSH045", Name = "Eternatus VMAX" });
+                context.Decks.Add(entity: new Deck() { FirstPokemonExternalId = "swshp-SWSH045", Name = "Eternatus VMAX" });
+                context.Decks.Add(entity: new Deck() { FirstPokemonExternalId = "swshp-SWSH045", Name = "Eternatus VMAX" });
+                context.Decks.Add(entity: new Deck() { FirstPokemonExternalId = "swshp-SWSH045", Name = "Eternatus VMAX" });
+                context.Decks.Add(entity: new Deck() { FirstPokemonExternalId = "swshp-SWSH045", Name = "Eternatus VMAX" });
+                context.Decks.Add(entity: new Deck() { FirstPokemonExternalId = "swshp-SWSH045", Name = "Eternatus VMAX" });
+                context.Decks.Add(entity: new Deck() { FirstPokemonExternalId = "swshp-SWSH045", Name = "Eternatus VMAX" });
+                context.Decks.Add(entity: new Deck() { FirstPokemonExternalId = "swshp-SWSH045", Name = "Eternatus VMAX" });
+                context.Decks.Add(entity: new Deck() { FirstPokemonExternalId = "swshp-SWSH045", Name = "Eternatus VMAX" });
+                context.Decks.Add(entity: new Deck() { FirstPokemonExternalId = "swshp-SWSH045", Name = "Eternatus VMAX" });
+                context.Decks.Add(entity: new Deck() { FirstPokemonExternalId = "swshp-SWSH045", Name = "Eternatus VMAX" });
+                context.Decks.Add(entity: new Deck() { FirstPokemonExternalId = "swshp-SWSH045", Name = "Eternatus VMAX" });
+                context.Decks.Add(entity: new Deck() { FirstPokemonExternalId = "swshp-SWSH045", Name = "Eternatus VMAX" });
+                context.Decks.Add(entity: new Deck() { FirstPokemonExternalId = "swshp-SWSH045", Name = "Eternatus VMAX" });
                 context.SaveChanges();
             }
         }
