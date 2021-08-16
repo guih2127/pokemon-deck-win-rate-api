@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace PokemonDeckWinRateAPI.Repositories
 {
-    public class MatchRepository : IMatchRepository
+    public class MatchRepository : BaseRepository, IMatchRepository
     {
         private readonly PokemonDeckWinRateContext _context;
 

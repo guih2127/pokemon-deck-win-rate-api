@@ -2,13 +2,12 @@
 using PokemonDeckWinRateAPI.Models;
 using PokemonDeckWinRateAPI.Models.Context;
 using PokemonDeckWinRateAPI.Repositories.Interfaces;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace PokemonDeckWinRateAPI.Repositories
 {
-    public class UserRepository : IUserRepository
+    public class UserRepository : BaseRepository, IUserRepository
     {
         private readonly PokemonDeckWinRateContext _context;
 

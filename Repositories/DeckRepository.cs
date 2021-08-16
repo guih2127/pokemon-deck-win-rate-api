@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace PokemonDeckWinRateAPI.Repositories
 {
-    public class DeckRepository : IDeckRepository
+    public class DeckRepository : BaseRepository, IDeckRepository
     {
         private readonly PokemonDeckWinRateContext _context;
         private readonly IConfiguration _configuration;
@@ -60,8 +60,10 @@ namespace PokemonDeckWinRateAPI.Repositories
                             FROM Decks d
                             LEFT JOIN Matchs m on d.Id = m.UsedDeckId
                             GROUP BY d.Id, d.Name, d.FirstPokemonExternalId, d.SecondPokemonExternalId
-                            ORDER BY WinPercentage DESC, MatchesWon DESC
-                            OFFSET @Offset ROWS FETCH NEXT @Next ROWS ONLY";
+                            ORDER BY WinPercentage DESC, MatchesWon DESC";
+
+                if (paginationViewModel != null)
+                    query = AddPaginationToDapperQuery(query);
 
                 var bestDecksStatus = await connection.QueryAsync<GetDeckAndDeckStatusViewModel>(query, paginationViewModel);
 
