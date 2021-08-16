@@ -10,5 +10,6 @@ namespace PokemonDeckWinRateAPI.Repositories.Interfaces
         public Task<IEnumerable<Deck>> GetDecksAsync(PaginationFilterViewModel paginationViewModel = null);
         public Task<Deck> InsertDeckAsync(Deck deck);
         public Task<int> GetDecksCountAsync();
+        public Task<IEnumerable<GetDeckAndDeckStatusViewModel>> GetBestDecksAsync(PaginationFilterViewModel paginationViewModel = null);
     }
 }

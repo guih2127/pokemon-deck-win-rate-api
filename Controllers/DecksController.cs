@@ -84,7 +84,8 @@ namespace PokemonDeckWinRateAPI.Controllers
         {
             try
             {
-                var bestDecks = await _deckService.GetBestDecksAsync(paginationViewModel);
+                var pagination = new PaginationFilterViewModel(paginationViewModel.PageNumber, paginationViewModel.PageSize);
+                var bestDecks = await _deckService.GetBestDecksAsync(pagination);
                 var totalDecksCount = await _deckService.GetDecksCountAsync();
 
                 return Ok(

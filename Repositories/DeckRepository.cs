@@ -1,4 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Dapper;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using PokemonDeckWinRateAPI.Models;
 using PokemonDeckWinRateAPI.Models.Context;
 using PokemonDeckWinRateAPI.Repositories.Interfaces;
@@ -12,10 +15,12 @@ namespace PokemonDeckWinRateAPI.Repositories
     public class DeckRepository : IDeckRepository
     {
         private readonly PokemonDeckWinRateContext _context;
+        private readonly IConfiguration _configuration;
 
-        public DeckRepository(PokemonDeckWinRateContext context)
+        public DeckRepository(PokemonDeckWinRateContext context, IConfiguration configuration)
         {
             _context = context;
+            _configuration = configuration;
         }
 
         public async Task<int> GetDecksCountAsync()
@@ -41,6 +46,27 @@ namespace PokemonDeckWinRateAPI.Repositories
                 ToListAsync();
 
             return decks;
+        }
+
+        public async Task <IEnumerable<GetDeckAndDeckStatusViewModel>> GetBestDecksAsync(PaginationFilterViewModel paginationViewModel = null)
+        {
+            using (var connection = new SqlConnection(_configuration.GetConnectionString("Default")))
+            {
+                var query = @"SELECT 
+                                d.*,
+	                            SUM(CAST(m.Win AS INT)) AS MatchesWon,
+                                COUNT(m.Id) - SUM(CAST(m.Win AS INT)) AS MatchesLost,
+	                            (SUM(CAST(m.Win AS INT)) * 100 / COUNT(m.Id)) AS WinPercentage
+                            FROM Decks d
+                            LEFT JOIN Matchs m on d.Id = m.UsedDeckId
+                            GROUP BY d.Id, d.Name, d.FirstPokemonExternalId, d.SecondPokemonExternalId
+                            ORDER BY WinPercentage DESC, MatchesWon DESC
+                            OFFSET @Offset ROWS FETCH NEXT @Next ROWS ONLY";
+
+                var bestDecksStatus = await connection.QueryAsync<GetDeckAndDeckStatusViewModel>(query, paginationViewModel);
+
+                return bestDecksStatus;
+            }
         }
 
         public async Task<Deck> InsertDeckAsync(Deck deck)

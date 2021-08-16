@@ -81,27 +81,7 @@ namespace PokemonDeckWinRateAPI.Services
 
         public async Task<IEnumerable<GetDeckAndDeckStatusViewModel>> GetBestDecksAsync(PaginationFilterViewModel paginationViewModel)
         {
-            var decks = await _deckRepository.GetDecksAsync(paginationViewModel);
-            var deckStatusList = new List<GetDeckAndDeckStatusViewModel>();
-
-            if (decks.Count() == 0)
-                return Enumerable.Empty<GetDeckAndDeckStatusViewModel>();
-
-            foreach (var deck in decks)
-            {
-                var deckStatus = _mapper.Map<Deck, GetDeckAndDeckStatusViewModel>(deck);
-
-                if (deck.MatchsAgainst.Count() > 0 && deck.MatchsAgainst != null)
-                {
-                    deckStatus.MatchesWon = deck.MatchsPlayed.Where(m => m.Win).Count();
-                    deckStatus.MatchesLost = deck.MatchsPlayed.Where(m => !m.Win).Count();
-                    deckStatus.WinPercentage = deckStatus.MatchesWon * 100 / (deckStatus.MatchesLost + deckStatus.MatchesWon);
-                }
-
-                deckStatusList.Add(deckStatus);
-            }
-
-            return deckStatusList.OrderByDescending(d => d.WinPercentage);
+            return await _deckRepository.GetBestDecksAsync(paginationViewModel);
         }
     }
 }
