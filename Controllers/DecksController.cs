@@ -76,8 +76,9 @@ namespace PokemonDeckWinRateAPI.Controllers
             }
         }
 
+
         [Route("/decks/best-decks")]
-        //[Authorize]
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> GetBestDecksAsync([FromQuery]PaginationFilterViewModel paginationViewModel)
         {
@@ -87,7 +88,7 @@ namespace PokemonDeckWinRateAPI.Controllers
                 var totalDecksCount = await _deckService.GetDecksCountAsync();
 
                 return Ok(
-                    new PagedResponseViewModel<GetDeckAndDeckStatusViewModel>
+                    new PagedListViewModel<GetDeckAndDeckStatusViewModel>
                     (bestDecks, paginationViewModel.PageNumber, paginationViewModel.PageSize, totalDecksCount)
                 );
             }
