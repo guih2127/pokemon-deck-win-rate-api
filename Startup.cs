@@ -70,7 +70,9 @@ namespace PokemonDeckWinRateAPI
             services.AddDbContext<PokemonDeckWinRateContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("Default")));
 
-            services.AddCors();
+            services.AddCors(options => options.AddPolicy("AllowAll", p => p.AllowAnyOrigin()
+                                                                        .AllowAnyMethod()
+                                                                         .AllowAnyHeader()));
 
             services.AddAutoMapper(typeof(Startup));
 
@@ -114,17 +116,14 @@ namespace PokemonDeckWinRateAPI
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "PokemonDeckWinRateAPI v1"));
             }
 
+            app.UseCors("AllowAll");
+
             app.UseHttpsRedirection();
 
             app.UseRouting();
 
             app.UseAuthentication();
             app.UseAuthorization();
-
-            app.UseCors(builder => builder
-                .AllowAnyOrigin()
-                .AllowAnyMethod()
-                .AllowAnyHeader());
 
             app.UseEndpoints(endpoints =>
             {
